@@ -28,7 +28,7 @@ services:
     environment:
       DATABASE_URL: "postgres://${POSTGRES_USER:?Set POSTGRES_USER in .env}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@db:${POSTGRES_PORT:?Set POSTGRES_PORT in .env}/${POSTGRES_DB:?Set POSTGRES_DB in .env}?sslmode=disable"
       DBMATE_MIGRATIONS_DIR: /db/migrations
-      DBMATE_SCHEMA_FILE: /db/schema.sql
+      DBMATE_NO_DUMP_SCHEMA: "true"
       DBMATE_STRICT: "true"
     volumes:
       - ./db:/db
