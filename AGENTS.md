@@ -20,7 +20,12 @@
 
 ## Architecture and repository layout
 
-- ...
+- `frontend/` contains the React Native application. It currently has only a `.gitkeep` placeholder.
+- `backend/` contains the Python FastAPI application. It currently has only a `.gitkeep` placeholder.
+- `db/migrations/` contains dbmate SQL migrations, with both `migrate:up` and `migrate:down` sections in each file. Dbmate writes the generated schema snapshot to `db/schema.sql`.
+- `docker-compose.yml` defines the PostgreSQL database and the one-shot dbmate migration service.
+- `.env` holds local environment values and is ignored by Git. `.env.example` documents the variables required by Docker Compose.
+- `README.md` is the top-level project documentation.
 
 ## Validation
 
