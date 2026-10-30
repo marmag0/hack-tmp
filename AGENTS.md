@@ -52,7 +52,7 @@
 ## Architecture and repository layout
 
 - `frontend/` contains the React Native application. It currently has only a `.gitkeep` placeholder.
-- `backend/` contains the Python FastAPI application, managed with uv (`pyproject.toml` and `uv.lock`). `main.py` creates the app and `config.py` reads settings from environment variables.
+- `backend/` contains the Python FastAPI application, managed with uv (`pyproject.toml` and `uv.lock`). `main.py` creates the app, `config.py` reads settings from environment variables, `db.py` holds the async SQLAlchemy engine and the session dependency, and `models.py` holds the ORM models. The backend connects as the application database user (`APP_USER`), never as the admin user. It uses `DATABASE_URL` when set (Docker Compose, host `db`), otherwise it builds the URL from the root `.env` values with host `localhost` (override with `POSTGRES_HOST`). Run it locally with `uv run --directory backend --env-file ../.env fastapi dev`.
 - `db/init/` contains database initialization scripts executed on initial PostgreSQL container bootstrap (such as creating the application user).
 - `db/migrations/` contains dbmate SQL migrations, with both `migrate:up` and `migrate:down` sections in each file. Schema snapshot generation is disabled (no `db/schema.sql`).
 - `docker-compose.yml` defines the PostgreSQL database and the one-shot dbmate migration service.

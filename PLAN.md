@@ -21,7 +21,8 @@ This document details the tasks required to turn this repository into a ready-to
 
 ### Task 4: Database Client and ORM Integration
 - **Title**: Configure PostgreSQL connection and data models for application user
-- **Description**: Set up an asynchronous database layer (using SQLModel or SQLAlchemy with `asyncpg`). Wire connection parameters so the application connects strictly as `APP_USER` via `DATABASE_URL` (without administrative superuser privileges). Define Python models corresponding to the `example_items` table and configure FastAPI dependency injection for database sessions.
+- **Description**: Set up an asynchronous database layer (using SQLModel or SQLAlchemy with `asyncpg`). Wire connection parameters so the application connects strictly as `APP_USER` via `DATABASE_URL` (without administrative superuser privileges). Define Python models corresponding to the `example_items` table and configure FastAPI dependency injection for database sessions. `DATABASE_URL` is used when set (Docker Compose), otherwise it is built from the root `.env` values (`APP_USER`, `APP_PASSWORD`, `POSTGRES_DB`, `POSTGRES_PORT`) with host `localhost`, which can be overridden with `POSTGRES_HOST`.
+- **Status**: Done
 
 ### Task 5: Base API Endpoints and Healthcheck
 - **Title**: Implement health check and sample CRUD endpoints
@@ -29,7 +30,7 @@ This document details the tasks required to turn this repository into a ready-to
 
 ### Task 6: Backend Containerization
 - **Title**: Create backend Dockerfile and register service in Docker Compose
-- **Description**: Add a `backend/Dockerfile` optimized for local development with auto-reload. Add the `backend` service definition to `docker-compose.yml`, configuring port mapping, environment variables from `.env`, and healthcheck dependencies on the `db` and `dbmate` services.
+- **Description**: Add a `backend/Dockerfile` optimized for local development with auto-reload. Add the `backend` service definition to `docker-compose.yml`, configuring port mapping, environment variables from `.env`, and healthcheck dependencies on the `db` and `dbmate` services. Compose is the preferred way to run the backend, so set `DATABASE_URL` for the backend service from the `.env` values with host `db` (`postgresql+asyncpg://APP_USER:APP_PASSWORD@db:POSTGRES_PORT/POSTGRES_DB`, like dbmate's URL). Keep `APP_PASSWORD` URL-safe, since Compose does not escape it.
 
 ### Task 7: Database Mock and Seed Data
 - **Title**: Add database seed script for instant prototyping
