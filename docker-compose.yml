@@ -41,6 +41,31 @@ services:
     command: ["--wait", "up"]
     restart: "no"
 
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      dbmate:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://${APP_USER:?Set APP_USER in .env}:${APP_PASSWORD:?Set APP_PASSWORD in .env}@db:${POSTGRES_PORT:?Set POSTGRES_PORT in .env}/${POSTGRES_DB:?Set POSTGRES_DB in .env}"
+      BACKEND_PORT: ${BACKEND_PORT:?Set BACKEND_PORT in .env}
+    ports:
+      - "${BACKEND_PORT:?Set BACKEND_PORT in .env}:${BACKEND_PORT:?Set BACKEND_PORT in .env}"
+    command:
+      [
+        "fastapi",
+        "dev",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "${BACKEND_PORT:?Set BACKEND_PORT in .env}",
+      ]
+    volumes:
+      - ./backend:/app
+
   # other services can go here
 
 volumes:

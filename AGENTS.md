@@ -52,10 +52,10 @@
 ## Architecture and repository layout
 
 - `frontend/` contains the React Native application. It currently has only a `.gitkeep` placeholder.
-- `backend/` contains the Python FastAPI application, managed with uv (`pyproject.toml` and `uv.lock`). `main.py` creates the app and defines its routes (`/health` and `/api/items`), `config.py` reads settings from environment variables, `db.py` holds the async SQLAlchemy engine and the session dependency, and `models.py` holds the ORM models. The backend connects as the application database user (`APP_USER`), never as the admin user. It uses `DATABASE_URL` when set (Docker Compose, host `db`), otherwise it builds the URL from the root `.env` values with host `localhost` (override with `POSTGRES_HOST`). Run it locally with `uv run --directory backend --env-file ../.env fastapi dev`.
+- `backend/` contains the Python FastAPI application, managed with uv (`pyproject.toml` and `uv.lock`) and containerized with `Dockerfile`. Application code lives in `backend/app/`: `main.py` creates the app and registers routers, `config.py` reads settings from environment variables, `db.py` holds the async SQLAlchemy engine and the session dependency, `models.py` holds the ORM models, `schemas.py` holds the Pydantic schemas, and `routers/` holds the API route modules (`health.py` for `/health` and `items.py` for `/api/items`). The backend connects as the application database user (`APP_USER`), never as the admin user. It uses `DATABASE_URL` when set (Docker Compose, host `db`), otherwise it builds the URL from the root `.env` values with host `localhost` (override with `POSTGRES_HOST`). Run it locally with `uv run --directory backend --env-file ../.env fastapi dev`.
 - `db/init/` contains database initialization scripts executed on initial PostgreSQL container bootstrap (such as creating the application user).
 - `db/migrations/` contains dbmate SQL migrations, with both `migrate:up` and `migrate:down` sections in each file. Schema snapshot generation is disabled (no `db/schema.sql`).
-- `docker-compose.yml` defines the PostgreSQL database and the one-shot dbmate migration service.
+- `docker-compose.yml` defines the PostgreSQL database, the one-shot dbmate migration service, and the FastAPI backend service.
 - `.env` holds local environment values and is ignored by Git. `.env.example` documents the variables required by Docker Compose.
 - `README.md` is the top-level project documentation.
 

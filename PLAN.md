@@ -11,7 +11,7 @@ This document details the tasks required to turn this repository into a ready-to
 
 ### Task 2: Backend Scaffolding and Dependency Management
 - **Title**: Initialize FastAPI application with modern dependency management
-- **Description**: Configure the `backend/` directory using modern Python tooling (such as `uv` or `pyproject.toml`). Create `backend/main.py` with FastAPI initialization, structured application config reading from environment variables, and preconfigured `CORSMiddleware` (allowing cross-origin communication from local development clients). Remove `backend/.gitkeep`.
+- **Description**: Configure the `backend/` directory using modern Python tooling (such as `uv` or `pyproject.toml`). Create `backend/app/main.py` with FastAPI initialization, structured application config reading from environment variables, and preconfigured `CORSMiddleware` (allowing cross-origin communication from local development clients). Remove `backend/.gitkeep`.
 - **Status**: Done
 
 ### Task 3: Code Quality, Linting, and Automated Checks
@@ -32,6 +32,7 @@ This document details the tasks required to turn this repository into a ready-to
 ### Task 6: Backend Containerization
 - **Title**: Create backend Dockerfile and register service in Docker Compose
 - **Description**: Add a `backend/Dockerfile` optimized for local development with auto-reload. Add the `backend` service definition to `docker-compose.yml`, configuring port mapping, environment variables from `.env`, and healthcheck dependencies on the `db` and `dbmate` services. Compose is the preferred way to run the backend, so set `DATABASE_URL` for the backend service from the `.env` values with host `db` (`postgresql+asyncpg://APP_USER:APP_PASSWORD@db:POSTGRES_PORT/POSTGRES_DB`, like dbmate's URL). Keep `APP_PASSWORD` URL-safe, since Compose does not escape it.
+- **Status**: Done
 
 ### Task 7: Database Mock and Seed Data
 - **Title**: Add database seed script for instant prototyping
