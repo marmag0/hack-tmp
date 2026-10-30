@@ -27,6 +27,7 @@ This document details the tasks required to turn this repository into a ready-to
 ### Task 5: Base API Endpoints and Healthcheck
 - **Title**: Implement health check and sample CRUD endpoints
 - **Description**: Add a `/health` endpoint that checks application and database connectivity. Implement basic CRUD endpoints under `/api/items` for querying and creating `example_items`. This serves as a working reference pattern for team members during the hackathon.
+- **Status**: Done
 
 ### Task 6: Backend Containerization
 - **Title**: Create backend Dockerfile and register service in Docker Compose
