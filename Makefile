@@ -1,6 +1,6 @@
 COMPOSE ?= $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
 
-.PHONY: dev up down db-up db-down migrate backend lint format
+.PHONY: dev up down db-up db-down db-reset migrate backend test lint format
 
 dev:
 	$(COMPOSE) up --build
@@ -17,11 +17,18 @@ db-up:
 db-down:
 	$(COMPOSE) down
 
+db-reset:
+	$(COMPOSE) down -v
+	$(COMPOSE) up -d db dbmate
+
 migrate:
 	$(COMPOSE) run --rm dbmate --wait up
 
 backend:
 	uv run --directory backend --env-file ../.env fastapi dev
+
+test:
+	uv run --directory backend pytest
 
 lint:
 	uv run --directory backend ruff check

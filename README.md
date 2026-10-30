@@ -4,13 +4,14 @@ Hackathon monorepo template with a Python FastAPI backend, PostgreSQL database w
 
 ## Repository Layout
 
-- `backend/` - FastAPI application managed with `uv` (`pyproject.toml`, `uv.lock`, `Dockerfile`). Application code lives in `backend/app/`:
+- `backend/` - FastAPI application managed with `uv` (`pyproject.toml`, `uv.lock`, `Dockerfile`). Application code lives in `backend/app/` and automated tests live in `backend/tests/`:
   - `main.py` - FastAPI app initialization, CORS middleware, and router registration
   - `config.py` - Environment-driven settings and database URL construction
   - `db.py` - Async SQLAlchemy engine and session dependency (`SessionDep`)
   - `models.py` - SQLAlchemy ORM models (`ExampleItem`)
   - `schemas.py` - Pydantic request/response schemas (`ItemCreate`, `ItemRead`)
   - `routers/` - API route modules (`health.py` for `/health` and `items.py` for `/api/items`)
+  - `tests/` - `pytest` API test suite (`conftest.py`, `test_api.py`)
 - `db/init/` - PostgreSQL container entrypoint scripts run on initial volume bootstrap (`01_create_app_user.sh`)
 - `db/migrations/` - `dbmate` SQL migrations (`01_grantUserPermissions.sql`, `02_exampleMigration.sql`, `03_seedExampleItems.sql`)
 - `frontend/` - Placeholder directory for the React Native client
@@ -116,6 +117,12 @@ Replace `8888` below with your `BACKEND_PORT` from `.env` (or `8000` when runnin
     -d '{"name": "Fourth example item"}'
   ```
 
+- **Run automated backend tests** (`pytest`):
+
+  ```sh
+  make test
+  ```
+
 ## Common Commands
 
 | Command | Description |
@@ -125,8 +132,10 @@ Replace `8888` below with your `BACKEND_PORT` from `.env` (or `8000` when runnin
 | `make down` | Stop and remove running containers |
 | `make db-up` | Start only `db` and run `dbmate` migrations in detached mode |
 | `make db-down` | Stop running database and project containers |
+| `make db-reset` | Wipe the database volume (`down -v`) and re-initialize `db` and `dbmate` |
 | `make migrate` | Run pending `dbmate` migrations (`run --rm dbmate --wait up`) |
 | `make backend` | Run FastAPI locally via `uv` using the root `.env` |
+| `make test` | Run the backend `pytest` suite via `uv` |
 | `make lint` | Run Ruff linter, Ruff format check, shell syntax check, and `git diff --check` |
 | `make format` | Auto-fix lint issues and format Python code with Ruff |
 
@@ -146,8 +155,7 @@ make migrate
 - **Database authentication fails after changing `.env` credentials**: PostgreSQL entrypoint scripts in `/docker-entrypoint-initdb.d` (`db/init/01_create_app_user.sh`) only run when the data volume is first initialized. To re-initialize the local database volume from scratch (this deletes local database data), run:
 
   ```sh
-  docker compose down -v
-  make up
+  make db-reset
   ```
 
 - **Special characters in database passwords**: `docker-compose.yml` interpolates `POSTGRES_PASSWORD` and `APP_PASSWORD` directly into `DATABASE_URL` strings without URL escaping. Keep passwords alphanumeric/URL-safe in `.env`.
