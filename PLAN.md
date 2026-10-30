@@ -37,6 +37,7 @@ This document details the tasks required to turn this repository into a ready-to
 ### Task 7: Database Mock and Seed Data
 - **Title**: Add database seed script for instant prototyping
 - **Description**: Create a seed script or migration containing realistic placeholder data for `example_items`. This allows developers to test API endpoints and business logic immediately without having to manually insert test records.
+- **Status**: Done
 
 ### Task 8: Task Runner and Developer Experience
 - **Title**: Add Makefile for one-command workflows
