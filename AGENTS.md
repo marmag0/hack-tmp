@@ -16,7 +16,7 @@
 - Make only changes needed to complete the requested task. Report unrelated errors or improvement opportunities instead of fixing them without being asked.
 - Inspect the working tree before editing and preserve unrelated or pre-existing changes.
 - Challenge unclear requirements or assumptions. Ask the user for clarification before implementing an ambiguous decision rather than inventing behavior, architecture, or scope. Continue independent work that does not depend on the answer.
-- Validate that changes are correct and do not break related behavior. Review the final diff, run relevant available checks, and report their results and any checks that could not be run. Use `[complete here]` for validation.
+- Validate that changes are correct and do not break related behavior. Review the final diff, run relevant available checks, and report their results and any checks that could not be run. Use `make lint` for validation.
 - Use `.gitkeep` to include otherwise empty directories in Git. Remove a directory's `.gitkeep` once it contains other tracked files.
 
 ## Code style and formatting conventions
