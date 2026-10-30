@@ -42,6 +42,7 @@ This document details the tasks required to turn this repository into a ready-to
 ### Task 8: Task Runner and Developer Experience
 - **Title**: Add Makefile for one-command workflows
 - **Description**: Provide a `Makefile` with clear shorthand commands (such as `make dev`, `make db-up`, `make db-down`, `make migrate`, `make backend`, and `make lint`). This eliminates friction and saves time during quick iterations.
+- **Status**: Done
 
 ### Task 9: Documentation and Hackathon Quickstart Guide
 - **Title**: Write a comprehensive Quickstart guide in README.md

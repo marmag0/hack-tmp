@@ -56,6 +56,7 @@
 - `db/init/` contains database initialization scripts executed on initial PostgreSQL container bootstrap (such as creating the application user).
 - `db/migrations/` contains dbmate SQL migrations, with both `migrate:up` and `migrate:down` sections in each file. Schema snapshot generation is disabled (no `db/schema.sql`).
 - `docker-compose.yml` defines the PostgreSQL database, the one-shot dbmate migration service, and the FastAPI backend service.
+- `Makefile` provides shorthand commands for common workflows (`make dev`, `make up`, `make down`, `make db-up`, `make db-down`, `make migrate`, `make backend`, `make lint`, `make format`).
 - `.env` holds local environment values and is ignored by Git. `.env.example` documents the variables required by Docker Compose.
 - `README.md` is the top-level project documentation.
 
