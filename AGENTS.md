@@ -23,6 +23,7 @@
 
 - **Core philosophy**: Simplicity and readability. Every line, comment, and configuration entry must have a clear purpose. Avoid boilerplate, speculative features, or redundant helpers.
 - **Dashes**: Always use classic ASCII dashes (`-`) rather than em dashes or en dashes.
+- **Python** (`backend/`): Format and lint with Ruff using its default configuration. Do not add custom Ruff rules without a clear need.
 - **Whitespace and line breaks**:
   - Use blank lines purposefully to separate logical units, not randomly.
   - SQL migrations (`db/migrations/`):
@@ -63,6 +64,8 @@
 - Run `git diff --check` after changes and inspect changed and newly created files for unintended edits.
 - For documentation changes, check grammar, Markdown structure, and affected links or table-of-contents anchors.
 - For ignore-rule changes, check representative ignored and tracked paths with `git check-ignore`.
+- For Python changes in `backend/`, run `uv run --directory backend ruff check` and `uv run --directory backend ruff format --check`. Apply fixes with `ruff check --fix` and `ruff format`.
+- For shell script changes in `db/init/`, run `sh -n db/init/*.sh`.
 - For code or Docker changes, run the relevant configured formatting, build, test, and configuration checks, including checks for affected callers or services. Add or update regression tests when behavior changes warrant them.
 
 ## Secrets and local files

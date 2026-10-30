@@ -17,6 +17,7 @@ This document details the tasks required to turn this repository into a ready-to
 ### Task 3: Code Quality, Linting, and Automated Checks
 - **Title**: Configure lightweight linting with Ruff and project check commands
 - **Description**: Add `ruff` as a development dependency in the backend project (`pyproject.toml` or `uv`) for ultra-fast linting and code formatting. Define unified check commands (`ruff check .`, `ruff format --check .`, `sh -n db/init/*.sh`, and `git diff --check`). Update `AGENTS.md` validation instructions to reference these commands so agents and contributors automatically validate changes.
+- **Status**: Done
 
 ### Task 4: Database Client and ORM Integration
 - **Title**: Configure PostgreSQL connection and data models for application user
