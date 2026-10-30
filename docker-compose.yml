@@ -7,14 +7,20 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
       POSTGRES_PORT: ${POSTGRES_PORT:?Set POSTGRES_PORT in .env}
-    expose:
-      - "${POSTGRES_PORT:?Set POSTGRES_PORT in .env}"
+      APP_USER: ${APP_USER:?Set APP_USER in .env}
+      APP_PASSWORD: ${APP_PASSWORD:?Set APP_PASSWORD in .env}
+    ports:
+      - "${POSTGRES_PORT:?Set POSTGRES_PORT in .env}:${POSTGRES_PORT:?Set POSTGRES_PORT in .env}"
     command: ["postgres", "-p", "${POSTGRES_PORT:?Set POSTGRES_PORT in .env}"]
     volumes:
       - postgres_data:/var/lib/postgresql
+      - ./db/init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test:
-        ["CMD-SHELL", 'pg_isready -p "$${POSTGRES_PORT}" -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+        [
+          "CMD-SHELL",
+          'pg_isready -p "$${POSTGRES_PORT}" -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"',
+        ]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -34,6 +40,8 @@ services:
       - ./db:/db
     command: ["--wait", "up"]
     restart: "no"
+
+  # other services can go here
 
 volumes:
   postgres_data:
