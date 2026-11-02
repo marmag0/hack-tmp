@@ -1,41 +1,28 @@
 COMPOSE ?= $(shell docker compose version >/dev/null 2>&1 && echo "docker compose" || echo "docker-compose")
 
-.PHONY: dev up down db-up db-down db-reset migrate backend test lint format
+.PHONY: dev prod down test lint format help
 
-dev:
+dev: ## Build and start all services in the foreground
 	$(COMPOSE) up --build
 
-up:
+prod: ## Build and start all services in detached mode
 	$(COMPOSE) up -d --build
 
-down:
+down: ## Stop and remove running containers
 	$(COMPOSE) down
 
-db-up:
-	$(COMPOSE) up -d db dbmate
-
-db-down:
-	$(COMPOSE) down
-
-db-reset:
-	$(COMPOSE) down -v
-	$(COMPOSE) up -d db dbmate
-
-migrate:
-	$(COMPOSE) run --rm dbmate --wait up
-
-backend:
-	uv run --directory backend --env-file ../.env fastapi dev
-
-test:
+test: ## Run backend tests with pytest
 	uv run --directory backend pytest
 
-lint:
+lint: ## Run code linters and checks
 	uv run --directory backend ruff check
 	uv run --directory backend ruff format --check
 	sh -n db/init/*.sh
 	git diff --check
 
-format:
+format: ## Auto-fix lint issues and format code
 	uv run --directory backend ruff check --fix
 	uv run --directory backend ruff format
+
+help: ## Show this help message
+	@awk 'BEGIN {FS = ":.*## "} /^[a-zA-Z_-]+:.*## / {printf "  %-10s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
